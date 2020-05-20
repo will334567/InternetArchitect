@@ -224,7 +224,7 @@ shell脚本为make.sh
 
 因为 FastDFS 主程序设置的 lib 目录是/usr/local/lib，所以需要创建软链接
 
-```
+```:wq
 ln -s /usr/lib64/libfastcommon.so /usr/local/lib/libfastcommon.so
 
 ln -s /usr/lib64/libfastcommon.so /usr/lib/libfastcommon.so
@@ -658,3 +658,4 @@ uploadFile  = fc.uploadImageAndCrtThumbImage(filename.getInputStream(), filename
 			
 		return new ResponseEntity<>(bs,headers,HttpStatus.OK);
 		}
+

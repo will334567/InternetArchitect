@@ -1,41 +1,54 @@
 package om.mashibing.springboot02.controller;
 
-import java.util.List;
-
+import java.io.IOException;
+import com.github.tobato.fastdfs.service.DefaultFastFileStorageClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 
-import om.mashibing.springboot02.entity.City;
-import om.mashibing.springboot02.service.CityService;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 
 @Controller
 @RequestMapping("/city")
 public class MainController {
 
 	@Autowired
-	CityService citySrv;
-	
-	@RequestMapping("/list")
-	public String list(Model map) {
-		
-		List<City> list =  citySrv.findAll();
-		
-		map.addAttribute("list", list);
-		System.out.println("list.size():" + list.size());
-		return "list";
+	private DefaultFastFileStorageClient fc;
+//
+//	@RequestMapping("/page")
+//	public String page() throws IOException {
+////		ModelAndView modelAndView  = new ModelAndView();
+////		modelAndView.setViewName("upload");
+//		return "upload" ;
+//	}
+
+	@PostMapping("/upload")
+	@ResponseBody
+	public void upload(MultipartFile file) throws IOException {
+
+		fc.uploadFile(file.getInputStream(),file.getSize(),file.getOriginalFilename(),null);
+
 	}
-	
-	@RequestMapping("list/{id}")
-	public String getOne(@PathVariable("id") Integer id,Model model) {
-		
-		
-		City city = citySrv.findOne(id);
-		
-		model.addAttribute("city", city);
-		return "list1";
+
+//	@Autowired
+//	CityService citySrv;
+//
+	@RequestMapping(value = "/list",method = RequestMethod.GET)
+	public String list() {
+
+		return "list" ;
 	}
+//
+//	@RequestMapping("list/{id}")
+//	public String getOne(@PathVariable("id") Integer id,Model model) {
+//
+//
+//		City city = citySrv.findOne(id);
+//
+//		model.addAttribute("city", city);
+//		return "list1";
+//	}
 	
 }
